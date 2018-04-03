@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Geocoder</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDdZPvT_DOPf546j-i4WtrCiQLGV5sp4SQ</string>
 </resources>

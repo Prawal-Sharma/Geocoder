@@ -15,11 +15,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity {
+import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     Button btnShowCoord;
     EditText edtAddress;
-    TextView txtCoord;
+    //TextView txtCoord;
+    GoogleMap mMap;
+    SupportMapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
         btnShowCoord = (Button)findViewById(R.id.btnShowCoordinates);
         edtAddress = (EditText)findViewById(R.id.edtAddress);
-        txtCoord = (TextView)findViewById(R.id.txtCoordinates);
+        //txtCoord = (TextView)findViewById(R.id.txtCoordinates);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
 
         btnShowCoord.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,7 +50,15 @@ public class MainActivity extends AppCompatActivity {
                 new GetCoordinates().execute(edtAddress.getText().toString().replace(" ","+"));
             }
         });
+        mapFragment.getMapAsync(this);
 
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
     }
 
     private class GetCoordinates extends AsyncTask<String,Void,String> {
@@ -77,7 +99,12 @@ public class MainActivity extends AppCompatActivity {
                 String lng = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry")
                         .getJSONObject("location").get("lng").toString();
 
-                txtCoord.setText(String.format("Coordinates : %s / %s ",lat,lng));
+                //txtCoord.setText(String.format("Coordinates : %s / %s ",lat,lng));
+
+
+                LatLng mark = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
+                mMap.addMarker(new MarkerOptions().position(mark).title("You Are Here"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(mark));
 
                 if(dialog.isShowing())
                     dialog.dismiss();
