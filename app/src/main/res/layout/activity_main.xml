@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    <!-- Text area might not be needed in final version
+    <!-- Text area might not be needed in final version-->
         <TextView
             android:id="@+id/txtCoordinates"
             android:textSize="40px"
@@ -42,7 +42,7 @@
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    -->
+    
 
     </LinearLayout>
 

@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     Button btnShowCoord;
     EditText edtAddress;
-    //TextView txtCoord;
+    TextView txtCoord;
     GoogleMap mMap;
     SupportMapFragment mapFragment;
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         btnShowCoord = (Button)findViewById(R.id.btnShowCoordinates);
         edtAddress = (EditText)findViewById(R.id.edtAddress);
-        //txtCoord = (TextView)findViewById(R.id.txtCoordinates);
+        txtCoord = (TextView)findViewById(R.id.txtCoordinates);
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
@@ -98,12 +98,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .getJSONObject("location").get("lat").toString();
                 String lng = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry")
                         .getJSONObject("location").get("lng").toString();
+                String name = ((JSONArray)jsonObject.get("results")).getJSONObject(0)
+                        .get("formatted_address").toString();
+                String type = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry")
+                        .get("location_type").toString();
 
-                //txtCoord.setText(String.format("Coordinates : %s / %s ",lat,lng));
-
+                txtCoord.setText(type);
 
                 LatLng mark = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
-                mMap.addMarker(new MarkerOptions().position(mark).title("You Are Here"));
+                mMap.addMarker(new MarkerOptions().position(mark).title(name));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(mark));
 
                 if(dialog.isShowing())
