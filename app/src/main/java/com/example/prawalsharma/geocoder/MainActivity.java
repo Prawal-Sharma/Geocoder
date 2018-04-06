@@ -1,5 +1,6 @@
 package com.example.prawalsharma.geocoder;
 
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.ProgressDialog;
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     GoogleMap mMap;
     SupportMapFragment mapFragment;
 
+    final MediaPlayer pingsoundMP = MediaPlayer.create(this, R.raw.ping);
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 new GetCoordinates().execute(edtAddress.getText().toString().replace(" ","+"));
+                pingsoundMP.start();
             }
         });
         mapFragment.getMapAsync(this);
